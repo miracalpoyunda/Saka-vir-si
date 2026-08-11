@@ -1,2 +1,2 @@
 # Saka-vir-si
-bir virüs similetürü
+bir virüs simlatürüdür.  gemini.py gemini.exe nin kodudur
