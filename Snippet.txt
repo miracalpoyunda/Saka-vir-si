@@ -1,0 +1,42 @@
+[Setup]
+AppName=Sakavurisi
+AppVersion=1.0
+DefaultDirName={localappdata}\Sakavurisi
+DefaultGroupName=Sakavurisi
+UninstallDisplayIcon={app}\gemini.exe
+Compression=lzma
+SolidCompression=yes
+OutputDir=C:\Users\miracaybuke\Desktop
+OutputBaseFilename=Sakavurisi_Setup
+PrivilegesRequired=lowest
+
+[Files]
+; Hedef dosyanız
+Source: "C:\Users\...\Desktop\gemini.exe"; DestDir: "{app}"; Flags: ignoreversion
+
+[Icons]
+Name: "{group}\Sakavurisi"; Filename: "{app}\gemini.exe"
+Name: "{userdesktop}\Sakavurisi"; Filename: "{app}\gemini.exe"
+
+[Code]
+function InitializeSetup(): Boolean;
+var
+  ResultCode: Integer;
+  UninstallerPath: String;
+begin
+  Result := True;
+  // {app} yerine doğrudan hedef klasör yolunu sabit olarak veriyoruz
+  UninstallerPath := ExpandConstant('{localappdata}\Sakavurisi\unins000.exe');
+  
+  if FileExists(UninstallerPath) then
+  begin
+    if MsgBox('Sakavurisi zaten bilgisayarınızda kurulu.' + #13#10 + 
+              'Uygulamayı bilgisayarınızdan kaldırmak (Uninstall) istiyor musunuz?', 
+              mbConfirmation, MB_YESNO) = IDYES then
+    begin
+      Exec(UninstallerPath, '', '', SW_SHOW, ewWaitUntilTerminated, ResultCode);
+    end;
+    // Setup kuruluma devam etmeden kapanır
+    Result := False; 
+  end;
+end;
